@@ -15,20 +15,17 @@ public class CurrencyDBTests {
 
     CurrencyDatabase currencyDB;
     Currency currency;
-    ExchangeRate rate;
+    //ExchangeRate exchangeRate;
     //CurrencyServer server;
 
     @Before
     public void setup() throws Exception {
         currencyDB = new CurrencyDatabase();
         currency = new Currency(null,null, false);
-        rate = new ExchangeRate(null, null, 0);
+        //exchangeRate = new ExchangeRate(null, null, 0);
     }
 
     @After
-    /*public void teardown() {
-        currencyDB = null;
-    }*/
     public void teardown() { currencyDB = null; }
 
     @Test
@@ -40,7 +37,7 @@ public class CurrencyDBTests {
         Currency curr = currencyDB.getCurrencyByCode(code);
 
         //Verify
-        assertEquals(curr.name, "Euro");
+        assertEquals("Euro", curr.name);
     }
 
     @Test
@@ -61,7 +58,7 @@ public class CurrencyDBTests {
         List<Currency> list = currencyDB.getCurrencies();
 
         //Verify
-        assertEquals(list, currencyDB.currencies);
+        assertEquals(currencyDB.currencies, list);
     }
 
     @Test
@@ -73,9 +70,9 @@ public class CurrencyDBTests {
 
 
         //Verify
-        assertEquals(majorList, currencyDB.currencies);
+        assertEquals(currencyDB.currencies, majorList);
     }
-
+    
     @Test
     public void testGetExchangeRate() throws Exception {
         //Setup
@@ -83,37 +80,36 @@ public class CurrencyDBTests {
         String dest = "GBP";
 
         //Exercise
-        ExchangeRate rate = currencyDB.getExchangeRate(source, dest);
+        ExchangeRate eRate = currencyDB.getExchangeRate(source, dest);
 
         //Verify
-        assertEquals(rate, "EUR 1 = GBP 0.40");
+        assertEquals("EUR 1 = GBP 1.04", eRate);
     }
 
     @Test
     public void testAddCurrency() throws Exception {
         //Setup
-        Currency curr = new Currency("TST", "Test", true);
-        currencyDB.addCurrency(curr);
+        int size = currencyDB.countCurrencies();
 
         //Exercise
-        //need count method in CurrencyDatabase
+        currencyDB.addCurrency(currency);
 
         //Verify
-        assertEquals(curr, currencyDB.currencies);
+        assertEquals(size+1, currencyDB.countCurrencies());
     }
 
     @Test
     public void testDeleteCurrency() throws Exception {
         //Setup
-        Currency curr = new Currency("TST", "Test", true);
+        Currency curr = new Currency("TST", "Test", false);
         currencyDB.addCurrency(curr);
+        int size = currencyDB.countCurrencies();
 
         //Exercise
-        //need count method in CurrencyDatabase
         currencyDB.deleteCurrency("TST");
 
         //Verify
-        assertEquals(curr, currencyDB.currencies);
+        assertEquals(size-1, currencyDB.countCurrencies());
     }
 
 }

@@ -90,6 +90,10 @@ public class CurrencyDatabase {
         return result;
     }
 
+    int countCurrencies() {
+        return currencies.size();
+    }
+
     public ExchangeRate getExchangeRate(String sourceCurrencyCode, String destinationCurrencyCode) throws  Exception {
         long FIVE_MINUTES_IN_MILLIS = 300000;  //5*60*100
 
