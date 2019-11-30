@@ -19,7 +19,7 @@ public class CurrencyDBTests {
     //CurrencyServer server;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() throws Exception{
         currencyDB = new CurrencyDatabase();
         currency = new Currency(null,null, false);
         //exchangeRate = new ExchangeRate(null, null, 0);
@@ -72,7 +72,7 @@ public class CurrencyDBTests {
         //Verify
         assertEquals(currencyDB.currencies, majorList);
     }
-    
+
     @Test
     public void testGetExchangeRate() throws Exception {
         //Setup
