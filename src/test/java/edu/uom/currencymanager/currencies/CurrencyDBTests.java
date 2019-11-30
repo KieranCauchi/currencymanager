@@ -1,15 +1,18 @@
 package edu.uom.currencymanager.currencies;
 
+import edu.uom.currencymanager.currencies.Stubs.StubCurrencyServerFailure;
+import edu.uom.currencymanager.currencies.Stubs.StubCurrencyServerSuccess;
 import edu.uom.currencymanager.currencyserver.CurrencyServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CurrencyDBTests {
 
@@ -72,7 +75,7 @@ public class CurrencyDBTests {
         //Verify
         assertEquals(currencyDB.currencies, majorList);
     }
-
+/*
     @Test
     public void testGetExchangeRate() throws Exception {
         //Setup
@@ -85,7 +88,7 @@ public class CurrencyDBTests {
         //Verify
         assertEquals("EUR 1 = GBP 1.04", eRate);
     }
-
+*/
     @Test
     public void testAddCurrency() throws Exception {
         //Setup
@@ -112,4 +115,58 @@ public class CurrencyDBTests {
         assertEquals(size-1, currencyDB.countCurrencies());
     }
 
+    @Test
+    public void testCommitWithSuccessfulCurrencyServer() throws Exception {
+        //Setup
+        CurrencyServer currencyServer = new StubCurrencyServerSuccess();
+        currencyDB.getExchangeRate("EUR", "GBP");
+
+        //Exercise
+        boolean result = currencyDB.getRate(currencyServer);
+
+        //Verify
+        assertTrue(result);
+    }
+/*
+    @Test
+    public void testCommitWithSuccessfulCurrencyServerMock() throws Exception {
+        //Setup
+        CurrencyServer currencyServer = Mockito.mock(CurrencyServer.class);
+        Mockito.when(currencyServer.getExchangeRate("EUR", "GBP")).thenReturn((double) 0);
+        currencyDB.getExchangeRate("EUR", "GBP");
+
+        //Exercise
+        boolean result = currencyDB.getRate(currencyServer);
+
+        //Verify
+        assertTrue(result);
+    }
+*/
+    @Test
+    public void testCommitWithFailingCurrencyServer() throws Exception {
+        //Setup
+        CurrencyServer currencyServer = new StubCurrencyServerFailure();
+        currencyDB.getExchangeRate("EUR", "GBP");
+
+        //Exercise
+        boolean result = currencyDB.getRate(currencyServer);
+
+        //Verify
+        assertFalse(result);
+    }
+/*
+    @Test
+    public void testCommitWithFailingDBConnectionMock() throws Exception {
+        //Setup
+        CurrencyServer currencyServer = Mockito.mock(CurrencyServer.class);
+        Mockito.when(currencyServer.getExchangeRate("EUR", "GBP")).thenReturn((double) -1);
+        currencyDB.getExchangeRate("EUR", "GBP");
+
+        //Exercise
+        boolean result = currencyDB.getRate(currencyServer);
+
+        //Verify
+        assertFalse(result);
+    }
+*/
 }

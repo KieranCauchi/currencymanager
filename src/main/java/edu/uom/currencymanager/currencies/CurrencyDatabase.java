@@ -150,6 +150,25 @@ public class CurrencyDatabase {
         //Persist
         persist();
     }
+/*
+    public void getRate(CurrencyServer currencyServer){
+
+        Double rate = currencyServer.getExchangeRate("Euro", "British Pound");
+
+
+    }
+*/
+
+    public boolean getRate(CurrencyServer currencyServer) {
+        boolean result = true;
+        for (Currency c : currencies) {
+            if (currencyServer.getExchangeRate(c.code, c.code) != 0) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
 
     public void persist() throws Exception {
 
