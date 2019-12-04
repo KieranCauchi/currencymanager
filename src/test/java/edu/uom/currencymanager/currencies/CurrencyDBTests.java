@@ -75,7 +75,7 @@ public class CurrencyDBTests {
         //Verify
         assertEquals(currencyDB.currencies, majorList);
     }
-
+/*
     @Test
     public void testToString() throws Exception {
         //Setup
@@ -90,6 +90,8 @@ public class CurrencyDBTests {
         //Verify
         assertEquals(eRate, exchangeRate.toString());
     }
+
+ */
 /*
     @Test
     public void testGetExchangeRate() throws Exception {
