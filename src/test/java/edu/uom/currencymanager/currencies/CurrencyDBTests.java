@@ -75,6 +75,21 @@ public class CurrencyDBTests {
         //Verify
         assertEquals(currencyDB.currencies, majorList);
     }
+
+    @Test
+    public void testToString() throws Exception {
+        //Setup
+        ExchangeRate eRate = currencyDB.getExchangeRate("EUR", "GBP");
+        Currency euro = new Currency("EUR", "Euro", true);
+        Currency britishPound = new Currency("GBP", "British Pound", true);
+        double rate = 0.0;
+
+        //Exercise
+        ExchangeRate exchangeRate = new ExchangeRate(euro, britishPound, 1.02);
+
+        //Verify
+        assertEquals(eRate, exchangeRate.toString());
+    }
 /*
     @Test
     public void testGetExchangeRate() throws Exception {
