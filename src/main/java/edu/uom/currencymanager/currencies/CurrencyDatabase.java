@@ -12,6 +12,7 @@ public class CurrencyDatabase {
 
     CurrencyServer currencyServer;
     List<Currency> currencies = new ArrayList<Currency>();
+    List<Currency> majorCurrencies = new ArrayList<Currency>();
     HashMap<String, ExchangeRate> exchangeRates = new HashMap<String, ExchangeRate>();
 
     String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
@@ -84,6 +85,7 @@ public class CurrencyDatabase {
         for (Currency currency : currencies) {
             if (currency.major) {
                 result.add(currency);
+                majorCurrencies.add(currency);
             }
         }
 
@@ -150,14 +152,6 @@ public class CurrencyDatabase {
         //Persist
         persist();
     }
-/*
-    public void getRate(CurrencyServer currencyServer){
-
-        Double rate = currencyServer.getExchangeRate("Euro", "British Pound");
-
-
-    }
-*/
 
     public boolean getRate(CurrencyServer currencyServer) {
         boolean result = true;
@@ -168,7 +162,6 @@ public class CurrencyDatabase {
         }
         return result;
     }
-
 
     public void persist() throws Exception {
 

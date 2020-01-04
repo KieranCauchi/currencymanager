@@ -18,14 +18,13 @@ public class CurrencyDBTests {
 
     CurrencyDatabase currencyDB;
     Currency currency;
-    //ExchangeRate exchangeRate;
-    //CurrencyServer server;
+    EuroExchangeRate eRate;
 
     @Before
     public void setup() throws Exception{
         currencyDB = new CurrencyDatabase();
         currency = new Currency(null,null, false);
-        //exchangeRate = new ExchangeRate(null, null, 0);
+        eRate = new EuroExchangeRate();
     }
 
     @After
@@ -69,11 +68,8 @@ public class CurrencyDBTests {
         //Setup
         List majorList = currencyDB.getMajorCurrencies();
 
-        //Exercise
-
-
         //Verify
-        assertEquals(currencyDB.currencies, majorList);
+        assertEquals(currencyDB.majorCurrencies, majorList);
     }
 /*
     @Test
@@ -133,6 +129,20 @@ public class CurrencyDBTests {
     }
 
     @Test
+    public void testEuroExchangeRateUSD() throws Exception {
+        //Setup
+        EuroExchange euroExchange = Mockito.mock(EuroExchange.class);
+        Mockito.when(euroExchange.getEuroExchangeRate()).thenReturn(euroExchange.USD);
+
+        //Exercise
+        String msg = eRate.getEuroExchangeRateMessage(euroExchange);
+
+        //Verify
+        assertEquals("Exchange Rate is: " + currencyDB.getExchangeRate("EUR", "USD"), msg);
+        //assertEquals("a", msg);
+    }
+
+    @Test
     public void testCommitWithSuccessfulCurrencyServer() throws Exception {
         //Setup
         CurrencyServer currencyServer = new StubCurrencyServerSuccess();
@@ -144,21 +154,7 @@ public class CurrencyDBTests {
         //Verify
         assertTrue(result);
     }
-/*
-    @Test
-    public void testCommitWithSuccessfulCurrencyServerMock() throws Exception {
-        //Setup
-        CurrencyServer currencyServer = Mockito.mock(CurrencyServer.class);
-        Mockito.when(currencyServer.getExchangeRate("EUR", "GBP")).thenReturn((double) 0);
-        currencyDB.getExchangeRate("EUR", "GBP");
 
-        //Exercise
-        boolean result = currencyDB.getRate(currencyServer);
-
-        //Verify
-        assertTrue(result);
-    }
-*/
     @Test
     public void testCommitWithFailingCurrencyServer() throws Exception {
         //Setup
@@ -171,19 +167,5 @@ public class CurrencyDBTests {
         //Verify
         assertFalse(result);
     }
-/*
-    @Test
-    public void testCommitWithFailingDBConnectionMock() throws Exception {
-        //Setup
-        CurrencyServer currencyServer = Mockito.mock(CurrencyServer.class);
-        Mockito.when(currencyServer.getExchangeRate("EUR", "GBP")).thenReturn((double) -1);
-        currencyDB.getExchangeRate("EUR", "GBP");
 
-        //Exercise
-        boolean result = currencyDB.getRate(currencyServer);
-
-        //Verify
-        assertFalse(result);
-    }
-*/
 }
