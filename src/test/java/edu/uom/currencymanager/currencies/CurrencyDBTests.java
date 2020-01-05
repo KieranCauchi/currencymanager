@@ -6,10 +6,8 @@ import edu.uom.currencymanager.currencyserver.CurrencyServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -71,37 +69,7 @@ public class CurrencyDBTests {
         //Verify
         assertEquals(currencyDB.majorCurrencies, majorList);
     }
-/*
-    @Test
-    public void testToString() throws Exception {
-        //Setup
-        ExchangeRate eRate = currencyDB.getExchangeRate("EUR", "GBP");
-        Currency euro = new Currency("EUR", "Euro", true);
-        Currency britishPound = new Currency("GBP", "British Pound", true);
-        double rate = 0.0;
 
-        //Exercise
-        ExchangeRate exchangeRate = new ExchangeRate(euro, britishPound, 1.02);
-
-        //Verify
-        assertEquals(eRate, exchangeRate.toString());
-    }
-
- */
-/*
-    @Test
-    public void testGetExchangeRate() throws Exception {
-        //Setup
-        String source = "EUR";
-        String dest = "GBP";
-
-        //Exercise
-        ExchangeRate eRate = currencyDB.getExchangeRate(source, dest);
-
-        //Verify
-        assertEquals("EUR 1 = GBP 1.04", eRate);
-    }
-*/
     @Test
     public void testAddCurrency() throws Exception {
         //Setup
@@ -136,10 +104,10 @@ public class CurrencyDBTests {
 
         //Exercise
         String msg = eRate.getEuroExchangeRateMessage(euroExchange);
+        System.out.println(msg);
 
         //Verify
         assertEquals("Exchange Rate is: " + currencyDB.getExchangeRate("EUR", "USD"), msg);
-        //assertEquals("a", msg);
     }
 
     @Test
